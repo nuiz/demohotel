@@ -90,6 +90,9 @@ class ServiceCTL extends BaseCTL {
                 unset($item['parent_id']);
                 $items['data'][$key] = $item;
             }
+//            $parent = ServiceService::getInstance()->get($this->reqInfo->urlParam('id'), $this->getCtx());
+//            $parent_url = is_null($parent['parent_id'])? URL::absolute('/service/'): URL::absolute('/service/'.MongoHelper::standardId($parent['parent_id'])).'/children';
+//            $items['node'] = ['parent'=> $parent_url];
             return $items;
         }
         catch (ServiceException $ex){
@@ -127,6 +130,11 @@ class ServiceCTL extends BaseCTL {
                 $nextQueryString = http_build_query(['page'=> $items['paging']['current']+1, 'limit'=> $items['limit']]);
                 $items['paging']['next'] = URL::absolute('/service/'.$params['parent_id'].'/children?'.$nextQueryString);
             }
+
+            $parent = ServiceService::getInstance()->get($this->reqInfo->urlParam('id'), $this->getCtx());
+            $parent_url = is_null($parent['parent_id'])? URL::absolute('/service'): URL::absolute('/service/'.MongoHelper::standardId($parent['parent_id'])).'/children';
+            $items['node'] = ['parent'=> $parent_url];
+
             return $items;
         }
         catch (ServiceException $ex){

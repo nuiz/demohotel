@@ -65,4 +65,18 @@ class ReservationCTL extends BaseCTL {
             return $ex->getResponse();
         }
     }
+
+    /**
+     * @POST
+     * @uri /replied/[h:id]
+     */
+    public function replied(){
+        try {
+            $success = ReservationService::getInstance()->replied($this->reqInfo->urlParam('id'), $this->getCtx());
+            return ['success'=> $success];
+        }
+        catch (ServiceException $ex){
+            return $ex->getResponse();
+        }
+    }
 }

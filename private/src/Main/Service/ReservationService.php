@@ -46,6 +46,7 @@ class ReservationService extends BaseService {
         $insert['check_out'] = new \MongoTimestamp($params['check_out']);
 //        $insert['app_id'] = $ctx->getAppId();
         MongoHelper::setCreatedAt($insert);
+        $insert['replied'] = false;
         $coll->insert($insert);
 
         return $insert;
@@ -96,5 +97,10 @@ class ReservationService extends BaseService {
         }
 
         return $res;
+    }
+
+    public function replied($id, Context $ctx){
+        $this->getCollection()->update(['_id'=> MongoHelper::mongoId($id)], ['$set'=> ['replied'=> true]]);
+        return true;
     }
 }

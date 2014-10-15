@@ -24,6 +24,10 @@ class OverviewPromotionService extends BaseService {
         return DB::getDB()->overview_promotion;
     }
 
+    public function getFeedCollection(){
+        return DB::getDB()->feed;
+    }
+
     public function add($params, Context $ctx){
         $v = new Validator($params);
         $v->rule('required', ['translate', 'pictures']);
@@ -53,6 +57,13 @@ class OverviewPromotionService extends BaseService {
         MongoHelper::setUpdatedAt($insert);
 
         $this->getCollection()->insert($insert);
+
+        $insertFeed = [
+            '_id'=> $insert['_id'],
+            'type'=> 'news',
+            'created_at'=> $insert['created_at']
+        ];
+        $this->getFeedCollection()->insert($insertFeed);
 
         return $insert;
     }
