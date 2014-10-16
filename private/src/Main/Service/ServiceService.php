@@ -24,6 +24,10 @@ class ServiceService extends BaseService {
         return DB::getDB()->services;
     }
 
+    public function getFeedCollection(){
+        return DB::getDB()->feed;
+    }
+
     public function addItem($params, Context $ctx){
         $v = new Validator($params);
         $v->rule('required', ['translate', 'pictures']);
@@ -138,7 +142,7 @@ class ServiceService extends BaseService {
         $skip = ($options['page']-1)*$options['limit'];
 
         // condition parent_id
-        $condition = ['parent'=> null];
+        $condition = ['parent_id'=> null];
         if(isset($options['parent_id'])){
             $condition = ['parent_id'=> MongoHelper::mongoId($options['parent_id'])];
         }

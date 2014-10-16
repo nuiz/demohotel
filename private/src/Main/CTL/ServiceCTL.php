@@ -90,9 +90,6 @@ class ServiceCTL extends BaseCTL {
                 unset($item['parent_id']);
                 $items['data'][$key] = $item;
             }
-//            $parent = ServiceService::getInstance()->get($this->reqInfo->urlParam('id'), $this->getCtx());
-//            $parent_url = is_null($parent['parent_id'])? URL::absolute('/service/'): URL::absolute('/service/'.MongoHelper::standardId($parent['parent_id'])).'/children';
-//            $items['node'] = ['parent'=> $parent_url];
             return $items;
         }
         catch (ServiceException $ex){
